@@ -1,0 +1,110 @@
+.imageCell
+{
+	border:1px #CCCCCC solid;
+	text-align:center;
+	padding:10px;
+}
+
+.links
+{
+	font-family:Georgia, "Times New Roman", Times, serif;
+	font-size:14px;
+}
+
+.links:hover
+{
+	text-decoration:none;
+}
+
+
+.linkcode_text
+{
+font-size:10px;
+border:1px #808080 inset;
+padding:3px;
+height:20px;
+}
+
+.infoTD
+{
+	font-size:12px;
+	border:1px #808080 dashed;
+	padding:5px;
+	vertical-align:middle;
+}
+
+#sizeChanger
+{
+text-decoration:underline;
+cursor:pointer;
+text-align:center;
+}
+
+#imageContainer
+{
+}
+
+td.pageElements
+{
+text-align:center;	
+}
+
+div.otherImages
+{
+padding:5px;
+margin:5px;
+border:1px #CCCCCC solid;
+}
+div.otherImages:hover
+{
+	border:1px #DEB84D solid;
+	background-color:#FFF2CE;
+}
+
+
+#mainphoto
+{
+cursor:pointer;
+}
+
+a
+{
+	font-family:Verdana;
+	font-size:10px;
+	color:#000000;
+}
+a.big
+{
+	font-family:Verdana;
+	font-size:16px;
+	color:#0000FF;
+}
+a:hover
+{
+color:#808080;
+}
+
+.textLinks
+{
+	padding:5px;
+	border:1px #CCCCCC solid;
+	text-align:center;
+	font-family:Georgia, "Times New Roman", Times, serif;
+	font-weight:bold;
+}
+
+.textLinks:hover
+{
+	border:1px #CCCCCC solid;
+}
+
+.notice
+{
+	padding:5px;
+	font-size:12px;
+	background-color:#FFF2CE;
+	font-family:Verdana;
+	border-top:1px #EBD085 solid;
+	border-bottom:1px #EBD085 solid;
+	text-align:center;
+}

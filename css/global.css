@@ -1,0 +1,54 @@
+.header
+{
+background-color:#F2F2F2;
+border:1px #CCCCCC solid;
+height:20px;
+padding-top:5px;
+}
+.h_options
+{
+font-family:Verdana, Arial, Helvetica, sans-serif;
+font-size:11px;
+text-decoration:underline;
+vertical-align:middle;
+text-align:center;
+
+}
+.seperator
+{
+height:7px;
+}
+.titlebar
+{
+	background-color:#6D84B4;
+	border:1px #3B5998 solid;
+	padding:5px;
+	height:30px;
+	color:white;
+}
+.boxbody
+{
+background-color:#F2F2F2;
+border:1px #CCCCCC solid;
+padding:5px;
+}
+
+.vsmalltext
+{
+	font-family:Verdana;
+	font-size:10px;
+}
+.pageHeader
+{
+	border-bottom:3px #00FF00 solid;
+	border-top:3px #00FF00 solid;
+	text-align:left;
+	font-family:Georgia;
+	font-size:24px;
+	font-weight:bold;
+	padding-bottom:10px;
+	padding-top:10px;
+	margin-bottom:20px;
+	
+	color:#127270;
+}
