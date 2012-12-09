@@ -2,29 +2,34 @@
 
 session_start();
 
-if (($_SESSION['username'])!=NULL)
+if (isset($_SESSION['uid']))
 {
-header('Location:home.php');
+	header('Location:home.php');
 }
 
 else
 {
-?>
+	?>
 
 <html>
 <head>
 
 
 <style type="text/css">
-a { text-decoration : none; color:blue;}
-.submitbutton
-{
-border:3px black groove;
+a {
+	text-decoration: none;
+	color: blue;
 }
+
+.submitbutton {
+	border: 3px black groove;
+}
+
 a:hover {
-	text-decoration : underline;
-	color:red;
+	text-decoration: underline;
+	color: red;
 }
+
 td {
 	padding-left: 5px;
 	padding-right: 5px;
@@ -33,29 +38,27 @@ td {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 14px;
 }
+
 table {
 	padding-top: 5px;
 	padding-bottom: 5px;
 }
 
-
-.loginbox
-{
-border: 0px;
-position:absolute;
-right:600px;
-top:150px;
+.loginbox {
+	border: 0px;
+	position: absolute;
+	right: 600px;
+	top: 150px;
 }
-.loginfields
-{
 
-	border:0px;
-	border-bottom:1px black dotted;
-	height:25px;
-	font-style:italic;
-	font-family:Verdana, Arial, Helvetica, sans-serif;
-
+.loginfields {
+	border: 0px;
+	border-bottom: 1px black dotted;
+	height: 25px;
+	font-style: italic;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
 }
+
 .footer {
 	position: absolute;
 	bottom: 10px;
@@ -72,22 +75,41 @@ top:150px;
 
 <body>
 
-<div class=loginbox>
-<form name=loginform action="./checklogin.php" method=POST>
-<center><div style="font-size:48px;font-style:italic;font-face:verdana;padding:10px;font-weight:bold">ThumbTag</div></center>
-<table border=0>
-	<tr><td>Email Address : <td><input type="text" name="email" class="loginfields"/><br /></tr>
-	<tr><td>Password : <td><input type="password" name="pass" class="loginfields" /><br /></tr>
-	<tr><td align=center colspan="2"><br /><input type=submit value="Login" class=submitbutton name=submitlogin><br />
-<tr>
-<td align=center colspan="2">
-<hr color="#CCCCCC">
-<a href="./register.php">Register</a>
-</table>
-</form>
-</div>
+	<div class=loginbox style="text-align: center;">
+		<form name=loginform action="./checklogin.php" method=POST>
 
-<div class="footer"><? include('footer.php'); ?></div>
+				<div
+					style="font-size: 48px; font-style: italic; font-face: verdana; padding: 10px; font-weight: bold">ThumbTag</div>
+
+			<table>
+				<tr>
+					<td>Email Address :
+					
+					<td><input type="text" name="email" class="loginfields" /><br />
+				
+				</tr>
+				<tr>
+					<td>Password :
+					
+					<td><input type="password" name="pass" class="loginfields" /><br />
+				
+				</tr>
+				<tr>
+					<td align=center colspan="2"><br /> <input type=submit
+						value="Login" class=submitbutton name=submitlogin><br />
+				
+				
+				<tr>
+					<td align=center colspan="2">
+						<hr color="#CCCCCC"> <a href="./register.php">Register</a>
+			
+			</table>
+		</form>
+	</div>
+
+	<div class="footer">
+		<? include('footer.php'); ?>
+	</div>
 </body>
 </html>
 

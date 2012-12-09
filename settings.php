@@ -2,7 +2,7 @@
 
 session_start();
 
-if(isset($_SESSION[uid]))
+if(isset($_SESSION['uid']))
 {
 
 
@@ -86,10 +86,10 @@ function submitform()
 
 include('config.php');
 
-if(isset($_POST[update]))
+if(isset($_POST['update']))
 {
 
-if(mysql_query("update user set email='$_POST[email]',pass='$_POST[pass]',sec_q='$_POST[secret_q]',sec_ans='$_POST[secret_ans]' where uid='$_SESSION[uid]'"))
+if(mysql_query("update user set email='$_POST[email]',userPass='$_POST[pass]',sQuestion='$_POST[secret_q]',sAnswer='$_POST[secret_ans]' where uid='$_SESSION[uid]'"))
 {
 echo "<center><br><span style=\"font-size:12px;font-weight:bold;font-family:Verdana;\">... Account Details Updated ...</span></center>";
 }
@@ -102,10 +102,10 @@ $accdetails = mysql_fetch_array(mysql_query("select * from user where uid='$_SES
 
 <form method=POST action=settings.php name=accform>
 <table border=0 cellpadding="0" cellspacing="0" style="padding:10px;">
-<tr><td>Email Address : <td><input type=text name=email size="40" value="<?php echo $accdetails[email] ?>"/></tr>
-<tr><td>Password : <td><input type=text name=pass size="40" value="<?php echo $accdetails[pass] ?>"></tr>
-<tr><td>Secret Question : <td><input type=text name=secret_q size="40" value="<?php echo $accdetails[sec_q] ?>"></tr>
-<tr><td>Secret Answer : <td><input type=text name=secret_ans size="40" value="<?php echo $accdetails[sec_ans] ?>"></tr>
+<tr><td>Email Address : <td><input type=text name=email size="40" value="<?php echo $accdetails['email'] ?>"/></tr>
+<tr><td>Password : <td><input type=text name=pass size="40" value="<?php echo $accdetails['userPass'] ?>"></tr>
+<tr><td>Secret Question : <td><input type=text name=secret_q size="40" value="<?php echo $accdetails['sQuestion'] ?>"></tr>
+<tr><td>Secret Answer : <td><input type=text name=secret_ans size="40" value="<?php echo $accdetails['sAnswer'] ?>"></tr>
 
 </table>
 </tr>
@@ -119,7 +119,7 @@ $accdetails = mysql_fetch_array(mysql_query("select * from user where uid='$_SES
 
 </form>
 
-<?
+<?php
 
 }
 

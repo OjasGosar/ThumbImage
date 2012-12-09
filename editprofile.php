@@ -2,7 +2,7 @@
 
 session_start();
 
-if(isset($_SESSION[uid]))
+if(isset($_SESSION['uid']))
 {
 
 
@@ -92,20 +92,20 @@ function showtab(id)
 	{
 		$("sec_gen").style.fontWeight="bold";
 		$("sec_more").style.fontWeight="normal";
-		$("sec_edu").style.fontWeight="normal";
+		//$("sec_edu").style.fontWeight="normal";
 		$("general").style.display="block";
 		$("more").style.display="none";
-		$("edu").style.display="none";
+		//$("edu").style.display="none";
 		
 	}
 	else if(id=="more")
 	{
 		$("sec_gen").style.fontWeight="normal";
 		$("sec_more").style.fontWeight="bold";
-		$("sec_edu").style.fontWeight="normal";
+		//$("sec_edu").style.fontWeight="normal";
 		$("general").style.display="none";
 		$("more").style.display="block";
-		$("edu").style.display="none";
+		//$("edu").style.display="none";
 
 	}
 	else
@@ -146,29 +146,32 @@ function origColor(id)
 // Inserting EDITed fields into db
 
 include('config.php');
-if(isset($_POST[general_submit]))
+if(isset($_POST['general_submit']))
 {
-
-	$dob = $_POST[year]."-".$_POST[month]."-".$_POST[day];
-	mysql_query("update profiles set name='$_POST[name]',city='$_POST[city]',dob='$dob' where uid='$_SESSION[uid]'");
+	echo "i m ran, genra_submit";
+	$dob = $_POST['year']."-".$_POST['month']."-".$_POST['day'];
+	mysql_query("update user set name='$_POST[name]',city='$_POST[city]',dob='$dob', country='$_POST[country]' where uid='$_SESSION[uid]'");
 }
-elseif(isset($_POST[more_submit]))
+elseif(isset($_POST['more_submit']))
 {
-	mysql_query("update profiles set aboutme='$_POST[aboutme]',likes='$_POST[likes]',dislikes='$_POST[dislikes]',movies='$_POST[movies]',music='$_POST[music]',books='$_POST[books]' where uid='$_SESSION[uid]'");
+	echo "i m ran, more_update_submit";
+	mysql_query("update user set abtMe='$_POST[abtMe]' where uid='$_SESSION[uid]'");
 }
+/* 
 elseif(isset($_POST[edu_submit]))
 {
 	mysql_query("update profiles set education='$_POST[education]',college='$_POST[college]',occupation='$_POST[occupation]' where uid='$_SESSION[uid]'");
 }
+ */
 /* value="<?php echo $profile[]; ?>" */
 
 // Retreiving user information from DB
 
-$profile_res = mysql_query("select * from profiles where uid='$_SESSION[uid]'");
+$profile_res = mysql_query("select * from user where uid='$_SESSION[uid]'");
 $profile = mysql_fetch_array($profile_res);
-$dateofbirth = explode("-",$profile[dob]);
+$dateofbirth = explode("-",$profile['dob']);
 
-if(isset($_POST['general_submit']) || isset($_POST['more_submit']) || isset($_POST['edu_submit']))
+if(isset($_POST['general_submit']) || isset($_POST['more_submit']) /* || isset($_POST['edu_submit']) */)
 {
 echo "<center><br><span style=\"font-size:12px;font-weight:bold;font-family:Verdana;\">... Account Details Updated ...</span></center><br>";
 }
@@ -183,7 +186,6 @@ echo "<center><br><span style=\"font-size:12px;font-weight:bold;font-family:Verd
 <!-- Javascript Navigation Tabs -->
 <td align="center" onClick=showtab("general") onMouseover=changeColor(this) onMouseout=origColor(this) class=section id=sec_gen width=32%>General
 <td align="center" onClick=showtab("more") onMouseover=changeColor(this) onMouseout=origColor(this) class=section id=sec_more width=32%>More About Me
-<td align="center" onClick=showtab("edu") onMouseover=changeColor(this) onMouseout=origColor(this) class=section id=sec_edu>Professional
 <!-- Javascript Navigation Tabs -->
 </tr>
 
@@ -192,18 +194,18 @@ echo "<center><br><span style=\"font-size:12px;font-weight:bold;font-family:Verd
 <td class=form colspan=3>
 
 <!-- DIV section for "general" -->
-<div class=general id=general>
+<div class=general id=general >
 <table border=0 cellpadding="0" cellspacing="0" width="100%">
 <tr>
 <td>
 
 <table border=0 cellpadding="0" cellspacing="0" style="padding:10px; padding-right:30px; border-right:1px #3B5998 dotted">
 <form name="generalform" method="POST" action="editprofile.php">
-<tr><td>Name: <td><input type="text" name="name" value="<?php echo $profile[name]; ?>"></tr>
+<tr><td>Name: <td><input type="text" name="name" value="<?php echo $profile['name']; ?>"></tr>
 
 <tr><td>Date Of Birth: <td><input type="text" size="2" maxlength="2" value="<?php echo $dateofbirth[2] ?>" name=day>&nbsp;/&nbsp;<input type="text" size="2" maxlength="2" value="<?php echo $dateofbirth[1] ?>" name=month>&nbsp;/&nbsp;<input type="text" size="4" maxlength="4" value="<?php echo $dateofbirth[0] ?>" name=year></tr>
 
-<tr><td>City : <td><input type="text" name="city" value="<?php echo $profile[city]; ?>"></tr>
+<tr><td>City : <td><input type="text" name="city" value="<?php echo $profile['city']; ?>"></tr>
 
 <tr><td>Country : <td><?php include('country.php'); ?></tr>
 </table>
@@ -231,20 +233,13 @@ echo "<center><br><span style=\"font-size:12px;font-weight:bold;font-family:Verd
 
 <table border=0 cellpadding="0" cellspacing="0" style="padding:10px; padding-right:30px; border-right:1px #3B5998 dotted">
 <form id="form1" name="moreform" method="POST" action="editprofile.php">
-<tr><td>About Me : <td><textarea rows=2 cols=20 name=aboutme><?php echo $profile[aboutme] ?></textarea></tr>
-<tr><td>Likes : <td><textarea rows=2 cols=20 name=likes><?php echo $profile[likes]; ?></textarea></tr>
-<tr><td>Dislikes : <td><textarea rows=2 cols=20 name=dislikes><?php echo $profile[dislikes]; ?></textarea></tr>
+<tr><td>About Me : <td><textarea rows=2 cols=20 name=abtMe><?php echo $profile['abtMe'] ?></textarea></tr>
 </table>
 
 
 <td>
 
 
-<table border=0 cellpadding="0" cellspacing="0" style="padding:10px;" width="100%">
-<tr><td>Movies : <td><textarea rows=2 cols=20 name=movies><?php echo $profile[movies]; ?></textarea></tr>
-<tr><td>Music : <td><textarea rows=2 cols=20 name=music><?php echo $profile[music]; ?></textarea></tr>
-<tr><td>Books : <td><textarea rows=2 cols=20 name=books><?php echo $profile[books]; ?></textarea></tr>
-</table>
 
 
 </tr>
@@ -260,32 +255,6 @@ echo "<center><br><span style=\"font-size:12px;font-weight:bold;font-family:Verd
 
 <!-- DIV section for "More about me" -->
 
-
-
-<!-- DIV section for "Edu" -->
-
-<div class=edu id=edu>
-<table border=0 cellpadding="0" cellspacing="0" class=tab  width="100%">
-<tr>
-<td>
-<form id="form1" name="eduform" method="POST" action="editprofile.php">
-<table border=0 cellpadding="0" cellspacing="0" style="padding:10px; padding-right:30px; border-right:1px #3B5998 dotted">
-<tr><td>Education : <td><input type="text" name=education value="<?php echo $profile[education] ?>"></tr>
-<tr><td>College : <td><input type="text" name=college value="<?php echo $profile[college] ?>"></tr>
-<tr><td>Current Occupation : <td><input type="text" name=occupation value="<?php echo $profile[occupation] ?>"></tr>
-</table>
-
-<tr>
-<td class=check><input type=submit value="Save Changes" name="edu_submit" /> &nbsp; <input type=reset />
-</form>
-</tr>
-
-
-</table>
-</div>
-
-<!-- DIV section for "edu" -->
-
 </tr>
 
 
@@ -294,7 +263,7 @@ echo "<center><br><span style=\"font-size:12px;font-weight:bold;font-family:Verd
 
 
 
-<?
+<?php
 
 }
 

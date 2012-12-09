@@ -6,7 +6,7 @@ $pass = "";
 $dbname = "dbproject";
 
 $conn = mysql_connect($server,$user,$pass);
-echo '$conn = ' .$conn;
+//echo '$conn = ' .$conn;
 if(!$conn)
   {
   die('Could not connect: ' . mysql_error());

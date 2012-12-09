@@ -2,7 +2,7 @@
 
 session_start();
 
-if (isset($_POST[submitlogin]))
+if (isset($_POST['submitlogin']))
 {
 	include('config.php');
 	$check_credentials = "select * from user where email='$_POST[email]' and userPass='$_POST[pass]'";
@@ -13,11 +13,11 @@ if (isset($_POST[submitlogin]))
 		
 		// set the session variables		
 		
-		$_SESSION[email] = $_POST[email];
+		$_SESSION['email'] = $_POST['email'];
 		$_SESSION[photo_loc] = 'dir';
 		$row =	mysql_fetch_array($check_credentials_res);
-		$_SESSION[uid] = $row[uid];
-		//$_SESSION[displayname] = $row[displayname];
+		$_SESSION['uid'] = $row['uId'];
+		$_SESSION['username'] = $row['username'];
 
 		// set online status for user
 		
