@@ -17,9 +17,8 @@ if (isset($_POST['submitlogin']))
 		$_SESSION[photo_loc] = 'dir';
 		$row =	mysql_fetch_array($check_credentials_res);
 		$_SESSION['uid'] = $row['uId'];
-		$_SESSION['username'] = $row['username'];
+		$_SESSION['username'] = $row['userName'];
 
-		// set online status for user
 		
 		
 		header('Location:home.php');
@@ -29,6 +28,11 @@ if (isset($_POST['submitlogin']))
 		header('Location:index.php?status=loginfailed');
 	}
 	
+}
+else if (isset($_POST['guestlogin'])) {
+	$_SESSION['guestid'] = "guest"; 
+	$_SESSION['guestusername'] = "guest";
+	header('Location:showgallery.php');
 }
 else
 {

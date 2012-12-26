@@ -98,24 +98,29 @@ border:2px white solid;
 <script language="javascript" src="ref.js"></script>
 
 <script language="javascript"> 
-
 accountarr = document.getElementsByTagName("input");
+
+function check(){
+	window.alert('In check function');
+}
+
 function validation(elements)
 {
-	window.confirm("Do you really want to reset the form and start over again ?")
+	
 	var counter=0;
 	var fieldsdone=0;
-	for (counter=0; counter < elements; counter++)
+	for (counter=0; counter<elements; counter++)
 	{
 			if(accountarr[counter].value!="")
 			{
 				fieldsdone=fieldsdone+1;
-			}			
+			}	
+			
 	}
 	if(fieldsdone==elements)
 	{
 		$("check1").innerHTML="Success !&nbsp;<img src='./images/good.gif'>";
-		document.regform.submit();
+		document.regform.submit();		
 	}
 	else
 	{
@@ -128,42 +133,12 @@ function qReset()
 	if(window.confirm("Do you really want to reset the form and start over again ?"))
 	{
 		document.regform.reset();
-		checkGender($('genderSelector'));
-		validation(3);
-		
+		//checkGender($('genderSelector'));
+		validation(3);		
 	}
 }
-/*
-function checkGender(selector)
-{
-	if(selector.selectedIndex==0)
-	{
-		$("check2").innerHTML="Please select your Gender&nbsp;<img src='./images/bad.gif'>";
-		return 0;
-	}
-	else
-	{
-		$("check2").innerHTML="Success&nbsp;<img src='./images/good.gif'>";
-		return 1;
-	}
-}
-*/
 
-function checkFilled()
-{
-	if($('username').value!="")
-	{
-		document.regform.submit();		
-	}
-	else if
-	{
-		$("check2").innerHTML="Please enter your UserName&nbsp;<img src='./images/bad.gif'>";
-	}
-	else
-	{
-		validation(3);
-	}
-}
+
 </script>
 
 </head>
@@ -171,7 +146,7 @@ function checkFilled()
 
 
 <?php
-if ( $_POST["pass"] && $_POST["email"] && $_POST["username"])
+if (!empty($_POST["username"]) && !empty($_POST["pass"]) && !empty($_POST["email"]))
 //if(0)
 {
 	include ('config.php');
@@ -216,7 +191,7 @@ else
 <div style="margin:auto; width:70%; top:100px; ">
 	<table border="0" width="50%" cellpadding="0" cellspacing="0" align="center">
 		<tr>
-			<td class=topblue colspan="2">Profile Details</td>
+			<td class=topblue colspan="2" onclick="check()">Profile Details</td>
 		</tr>
 		<tr>
 			<td><br></td>
@@ -238,8 +213,8 @@ else
 			<td colspan="2" align="center"><br><span style="font-size:10px;padding-left:10px;">Additional details can be filled when you login.</span><br></td>
 		</tr>
 		<tr>
-			<td align="right" style="padding:10px"><br><input type=button class="buttn" value="Reset" onclick="qReset()"><br></td>
-			<td align="left" style="padding:10px"><br><input type=button value="Register" class="buttn" name="register" onclick="validation(3)"><br></td>
+			<td align="right" style="padding:10px"><br><input type=button class="buttn" value="Reset" onClick="qReset();"><br></td>
+			<td align="left" style="padding:10px"><br><input type=button value="Register" class="buttn" name="register" onClick="validation(3)" ><br></td>
 		</tr>
 		<tr>
 			<td class=check id=check1 colspan="2"><span class=reqd>*</span>&nbsp;<span style="font-size:10px">Denotes compulsory field</span></td>

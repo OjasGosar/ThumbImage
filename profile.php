@@ -189,8 +189,6 @@ a:hover {
 				echo "<img src=\"$profile[profilePic]\" height=128 width=128><br><b>$disp[username]</b>";
 				?>
 			
-			
-			
 			<td width="15%"
 				style="background-color: #F2F2F2; padding-top: 30px; padding-left: 8px; border-left: 1px #CCCCCC solid; border-bottom: 1px #CCCCCC solid; border-top: 1px #CCCCCC solid;"
 				valign="top" width="170px"><?php
@@ -219,7 +217,7 @@ a:hover {
 				style="background-color: #F2F2F2; padding-top: 0px; padding-left: 8px; padding-right: 8px; border-left: 1px #CCCCCC solid; border-bottom: 1px #CCCCCC solid; border-top: 1px #CCCCCC solid; border-right: 1px #CCCCCC solid;">
 				<?php
 				echo "<table border=0 cellspacing=8px cellpadding=8px>";
-				echo "<tr><th align=center colspan=999>Recently Photo's uploaded by \"$disp[username]\"<tr>";
+				echo "<tr><th align=center colspan=5>Recently Photo's uploaded by \"$disp[username]\"<tr>";
 				//echo round(4.2);
 				while($row=mysql_fetch_array($pics))
 				{
@@ -233,67 +231,43 @@ a:hover {
 					echo "<td align=\"center\">";
 					$rate = round($row['rating']);
 					for ($i=0;$i<$rate;$i++) {
-					?>
-						<img src="./images/star_on.gif">
-					<?php
+					?> <img src="./images/star-black16.png"> <?php
 					}
 					for ($i=0;$i<5-$rate;$i++) {
-					?> 
-						<img src="./images/star_off.gif">
-					<?php
+					?> <img src="./images/star-white16.png"> <?php
 					}
-					?>
-
-
-
-			<!-- <td align="center">
+					?> <!-- <td align="center">
 				<div id="rateMe" title="Rating..." align="center">
 					<img src="./images/star_on.gif"> <img src="./images/star_off.gif"> <img
 						src="./images/star_off.gif"> <img src="./images/star_off.gif"> -->
-					<!-- <a id="_1" title="ehh..." class="on" ></a>
+				<!-- <a id="_1" title="ehh..." class="on" ></a>
 					<a id="_2" title="Not Bad" class="on" ></a>
 					<a id="_3" title="Pretty Good" class="on" ></a>
 					<a id="_4" title="Out Standing" class="on" ></a>
 					<a id="_5" title="Freakin' Awesome!" class="on"></a>
- -->
-				</div> <?php
-				echo "</td>";
-				echo "</tr>";
-				echo "</table>";
-					
-					
-					
-					
-				//echo "<td style='background-color:#ffffff;height:100px;width:100px' align=center><a href='./view.php?image=$row[contentId]' style= \"color: #000000;\"><b><u>$row[title]</b></u><img src='./thumbs/$row[content]' border=0></a></td>";
+ --> <?php
+ echo "</td>";
+ echo "</tr>";
+ echo "</table>";
+
+
+
+
+ //echo "<td style='background-color:#ffffff;height:100px;width:100px' align=center><a href='./view.php?image=$row[contentId]' style= \"color: #000000;\"><b><u>$row[title]</b></u><img src='./thumbs/$row[content]' border=0></a></td>";
 				}
 				echo "</table>";
 				echo "<center><span class=vsmalltext><a href='./showgallery.php?uid=$_GET[uid]'>View all</a></center>";
-				?></td>
-			
-			
-			
-			
-		
-		
-		
-		
-		
-		
+				?>
+			</td>
 		
 		
 		<tr>
 
 			<td colspan=2 valign="top">
 
-				<table border=0 cellpadding="0" cellspacing="0" width="270px">
+				<table border="0" cellpadding="0" cellspacing="0" width="270px">
 					<tr>
 						<td class="titlebar" id=personal_details>Personal Details
-					
-					
-					
-					
-					
-					
 					
 					
 					<tr>
@@ -317,10 +291,6 @@ echo "<tr><td class=fieldsection>About Me<td class=fielddesc> $profile[abtMe]</t
 echo "</table>";
 ?>
 				
-				
-				
-				
-				
 				</table> <br> <!-- <table border=0 cellpadding="0" cellspacing="0" width="270px"> -->
 
 				<!-- <tr><td class="titlebar">Professional Details --> <!-- <tr><td class="boxbody"> -->
@@ -334,18 +304,11 @@ $profile[college]</tr>";} if($profile[occupation]!=""){echo "<tr><td
 				class=fieldsection>Occupation<td class=fielddesc>
 				$profile[occupation]</tr>";} echo "</table>"; */ ?>
 	
-	
-	
-	
-	
 	</table>
 
 	<td width="50%" valign="top">
 		<!-- Start comments system  --> <?php include('comments.php'); ?> <!-- end comments system  -->
-	
-	
-	
-	
+		<br>
 	
 	<td valign="top" align="center" width="30%">
 
@@ -353,12 +316,6 @@ $profile[college]</tr>";} if($profile[occupation]!=""){echo "<tr><td
 			<tr>
 				<td class="titlebar" id=personal_details><?php echo $disp['username']; ?>'s
 					Friends
-			
-			
-			
-			
-			
-			
 			
 			
 			<tr>
@@ -391,10 +348,12 @@ $profile[college]</tr>";} if($profile[occupation]!=""){echo "<tr><td
 					echo "<tr><td></td><td></td><td><B><U>Userscore</U></B></td></tr>";
 					while($row=mysql_fetch_array($userfriends_res))
 					{
+						if(isset($_SESSION['uid'])) {
 						if($row['uId'] == $_SESSION['uid']){
 							//echo "$row[uId] == $_SESSION[uid]";
 							$isFriend = true;
 
+						}
 						}
 						echo "<tr><td><a href=profile.php?uid=$row[uId]>$row[username]</a></td><td>---------------------</td><td>$row[userscore]</td></tr>";
 					}
@@ -403,15 +362,13 @@ $profile[college]</tr>";} if($profile[occupation]!=""){echo "<tr><td
 
 				?>
 		
-		
-		
-		
-		
 		</table> <br> <?php 
+		if(isset($_SESSION['uid'])) {
 		if($_GET['uid'] != $_SESSION['uid']) {
 			if($isFriend == false) {
 				echo "<div onMouseOver=changecolor(this) class=useroptions id=xyz
 		onMouseOut=origcolor(this) onClick=addFriend()>Add To Friends List</div>";
+			}
 			}
 			/*
 			 echo "<div onMouseOver=changecolor(this) class=useroptions id=xyz
@@ -424,10 +381,6 @@ $profile[college]</tr>";} if($profile[occupation]!=""){echo "<tr><td
 
 
 		</table>
-	
-	
-	
-	
 	
 	</tr>
 

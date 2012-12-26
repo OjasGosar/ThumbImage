@@ -8,9 +8,10 @@ function upload($currFile, $currTitle)
 	//echo $currFile;
 	//echo $currTitle;
 	//echo $_POST[$currTitle];
-	$stypes = explode("/", $_FILES[$currFile]['type']);
+	$stypes = explode(".", $_FILES[$currFile]['name']);
 	$stypes = $stypes[count($stypes)-1];
-	//echo $stypes;
+	echo $stypes;
+	
 	$newfilename = rand()."-".$_FILES[$currFile]["name"];
 	if($_FILES[$currFile]["size"]<5242880)
 	{
@@ -18,7 +19,7 @@ function upload($currFile, $currTitle)
 		// Save temporary file to uploads folder
 		move_uploaded_file($_FILES[$currFile]["tmp_name"],$path);
 		//$dt = date("Y-m-d G:i:s");
-			
+		
 		// After uploading, use the uploaded file to generate a thumbnail
 		$thumbFile = "./thumbs/".$newfilename;
 		if(make_thumb($path,$thumbFile,120,$stypes))
@@ -27,9 +28,7 @@ function upload($currFile, $currTitle)
 			//echo "Yeah it called TRUE";
 			$upload_q = "insert into content(ownedBy,content,title) values('$_SESSION[uid]','$newfilename','$_POST[$currTitle]')";
 			mysql_query($upload_q);
-			if($_GET['files'] == 1) {
 				echo "<center><span style=\"font-size:12px;font-weight:bold;font-family:Verdana;\">... Content Successfully Uploaded ...</span></center>";
-			}
 		}
 		else
 			return 0;
@@ -61,6 +60,8 @@ function make_thumb($src, $dest, $desired_width, $stype) {
 			$source_image = imagecreatefromjpeg($src);
 			//echo "I was executed JPG";
 			break;
+		default:
+			$source_image = imagecreatefromjpeg($src);
 	}
 
 	//$source_image = imagecreatefromjpeg($src);

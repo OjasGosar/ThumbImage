@@ -10,7 +10,7 @@ if (isset($_SESSION[uid]))
 	{
 		if($_GET[uid]!=$_SESSION[uid])
 		{
-			$getfriends_res = mysql_query("select * from user where uid='$_SESSION[uid]'");
+			$getfriends_res = mysql_query("select * from friends where first_uid='$_SESSION[uid]' and second_uid='$_GET[uid]' and approved=1 or 0");
 			$getfriends = mysql_fetch_array($getfriends_res);
 	
 			$finalfriends = $getfriends[friends]."-".$_GET[uid];

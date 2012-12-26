@@ -8,7 +8,7 @@ if(isset($_SESSION['uid']))
 
 	// query for recent msgs
 
-	$scrap_q = "select * from scraps,user where to_uid=$_SESSION[uid] and scraps.to_uid=user.uid order by dt desc";
+	$scrap_q = "select * from content where rating>4 order by rating desc";
 	$scrap_res = mysql_query($scrap_q);
 
 	$profile = mysql_fetch_array(mysql_query("select thumbnail from user where uid='$_SESSION[uid]'"));
@@ -21,19 +21,20 @@ if(isset($_SESSION['uid']))
 	$userfriends_res = mysql_query($userfriends_q);
 	*/
 	$userfriends_q = "select uId, userName, userscore
-			from user
-			where uId in (
-			select friend
-			from (SELECT first_uid as user, second_uid as friend from friends where first_uid='$_SESSION[uid]' and approved=1
-			union
-			SELECT second_uid as user, first_uid  as friend  from friends where second_uid='$_SESSION[uid]' and approved=1) user_friends)";
+	from user
+	where uId in (
+	select friend
+	from (SELECT first_uid as user, second_uid as friend from friends where first_uid='$_SESSION[uid]' and approved=1
+	union
+	SELECT second_uid as user, first_uid  as friend  from friends where second_uid='$_SESSION[uid]' and approved=1) user_friends)";
 
 	$userfriends_res = mysql_query($userfriends_q);
 	?>
 <head>
 
 <title><?php echo $_SESSION['username']?>'s Dashboard</title>
-
+<link rel=stylesheet href=./css/global.css />
+<link rel="stylesheet" href="./css/view.css">
 <style type="text/css">
 .photo {
 	border: 2px black outset;
@@ -198,16 +199,22 @@ include('header.php');
 						type=submit value="Upload">&nbsp;&nbsp;&nbsp;<input type=button
 						onClick=destroy() value="Close">
 				</form>
-			</div> <!-- Center pane --> Search Profiles
+			</div> <!-- Center pane --> <span> </br>Search Profiles
+		</span>
+			<div
+				style="text-align: center; border-bottom: 1px #D8DFD0 solid; padding-top: 0px;">
+			</div>
+			<form method=POST action=searchprofile.php>
+				<br>Search : <input type=text name=simplesearch>&nbsp;<input
+					type=submit value="Search">
+			</form>
 		
 		<td align="left" valign=top><br> <span class=dispname>Hello <span
 				id=dispname><?php echo $user['userName'] ?> </span>
 		</span> <span id=edit><a href=#
 				style="text-decoration: none; font-size: 9px"
 				onClick=changeDispName($("dispname").innerHTML)>Edit</a> </span> <br>
-			<br> <img src="./images/msg.gif" />&nbsp;<i>You have <?php echo mysql_num_rows($scrap_res); ?>
-				Messages
-		</i> <!-- Right pane -->
+			<br>  <!-- Right pane -->
 		
 		<td class=rightpane rowspan=2 valign="top" width=25%>
 			<div
@@ -254,71 +261,88 @@ include('header.php');
 				?>
 			<div
 				style="text-align: center; border-bottom: 1px #D8DFD0 solid; padding-top: 50px;">
-
-
-
 			</div>
-			<form method=POST action=search.php>
-				<br>Search : <input type=text name=simplesearch>&nbsp;<input
-					type=submit value="Search">
-			</form>
-			<div class=seperator></div>
-			<center>
-				<span
-					style="text-decoration: underline; font-size: 10px; font-family: Verdana, Arial, Helvetica, sans-serif;"
-					onClick="location.href='search.php'">Advanced Search</span>
-				</ce
+	
+	
+	<tr>
+
+
+
+		<td width=18% class=leftpane rowspan="2" valign="top">
+
+			<div onMouseOver=changecolor(this) class=leftnav id=xyz
+				onMouseOut=origcolor(this) onClick=loadframe("editprofile.php")>&nbsp;
+				Edit Profile</div>
+			<div onMouseOver=changecolor(this) class=leftnav id=xyz
+				onMouseOut=origcolor(this) onClick=loadframe("picupload.php")>&nbsp;
+				Upload Photos</div>
+			<div onMouseOver=changecolor(this) class=leftnav id=xyz
+				onMouseOut=origcolor(this) onClick=loadframe("settings.php")>&nbsp;
+				Account Settings</div>
+			<div onMouseOver=changecolor(this) class=leftnav id=xyz
+				onMouseOut=origcolor(this)
+				onClick="location.href='profile.php?uid=<?php echo $_SESSION['uid'] ?>'">&nbsp;View
+				Profile</div>
+			<div onMouseOver=changecolor(this) class=leftnav id=xyz
+				onMouseOut=origcolor(this) onClick="location.href='logout.php'">&nbsp;
+				Log Out</div>
 		
-		nter>
+		<td valign="top">
+			<div class=centermain id=centermain align=center>
+				<img src="./images/msg.gif" />&nbsp;<i><u>You have <?php echo mysql_num_rows($scrap_res); ?>
+				Featured Items
+		</u></i>
+				
 
 
-				<tr>
+				<?php 
+
+				echo "<table border=0 width=75%>";
+				$count=0;
+				while($row=mysql_fetch_array($scrap_res))
+				{
+					/* if($break%1==0 && $break!=0)
+					 { */
+					echo "<tr>";
+					/* } */
+
+					echo "<td class=imageCell><a href=./view.php?image=$row[contentId]><img src='./thumbs/$row[content]' border=0></a>";
+					echo "<td>";
+					$rate = round($row['rating']);
+					for ($i=0;$i<$rate;$i++) {
+					?>
+				<img src="./images/star-black16.png">
+				<?php
+											}
+											for ($i=0;$i<5-$rate;$i++) {
+											?>
+				<img src="./images/star-white16.png">
+				<?php
+											}
+											echo "</td><td>";
+											$numComments = mysql_query("select count(commentId) as ccount from comment where contentId = $row[contentId]");
+											$commentCounts = mysql_fetch_array($numComments);
+											$numTags = mysql_query("select count(tagId) as tcount from tag where contentId = $row[contentId]");
+											$tagCounts = mysql_fetch_array($numTags);
+											echo "<span class=commenttagbar>$commentCounts[ccount] Comment & $tagCounts[tcount] Tag</span>";
 
 
+											echo "</td>";
+											//$break=$break+1;
+				}
+				/* while($row = mysql_fetch_array($scrap_res))
+				 {
+				echo "<tr><td class=lastmsgs width=16% align=center>$row[username]</td><td class=lastmsgs><div style=\"font-size:10px;text-align:right\">$row[dt]</div>$row[msg]<div style=\"text-align:right\"><input type=button value=Delete style=\"font-size:9px;border:1px grey solid;color:black\" onClick=location.href=\"deletemsg.php?msg=$row[msg_uid]\"></div></td></tr>";
+				$count++;
+				if($count==5)
+					break;
+				} */
+				if (mysql_num_rows($scrap_res)==0)
+				{
+					echo "<tr><td class=lastmsgs width=16%>-</td><td class=lastmsgs>You have no messages</td></tr>";
+				}
 
-					<td width=18% class=leftpane rowspan="2" valign="top">
-
-						<div onMouseOver=changecolor(this) class=leftnav id=xyz
-							onMouseOut=origcolor(this) onClick=loadframe("editprofile.php")>&nbsp;
-							Edit Profile</div>
-						<div onMouseOver=changecolor(this) class=leftnav id=xyz
-							onMouseOut=origcolor(this) onClick=loadframe("picupload.php")>&nbsp;
-							Upload Photos</div>
-						<div onMouseOver=changecolor(this) class=leftnav id=xyz
-							onMouseOut=origcolor(this) onClick=loadframe("settings.php")>&nbsp;
-							Account Settings</div>
-						<div onMouseOver=changecolor(this) class=leftnav id=xyz
-							onMouseOut=origcolor(this)
-							onClick="location.href='profile.php?uid=<?php echo $_SESSION['uid'] ?>'">&nbsp;View
-							Profile</div>
-						<div onMouseOver=changecolor(this) class=leftnav id=xyz
-							onMouseOut=origcolor(this) onClick="location.href='logout.php'">&nbsp;
-							Log Out</div>
-					
-					<td valign="top">
-						<div class=centermain id=centermain>
-							<div align=center style="font-size: 18px; font-weight: bold">Last
-								5 Messages</div>
-
-
-
-							<?php 
-
-							echo "<table border=0 width=100%>";
-							$count=0;
-							while($row = mysql_fetch_array($scrap_res))
-							{
-								echo "<tr><td class=lastmsgs width=16% align=center>$row[username]</td><td class=lastmsgs><div style=\"font-size:10px;text-align:right\">$row[dt]</div>$row[msg]<div style=\"text-align:right\"><input type=button value=Delete style=\"font-size:9px;border:1px grey solid;color:black\" onClick=location.href=\"deletemsg.php?msg=$row[msg_uid]\"></div></td></tr>";
-								$count++;
-								if($count==5)
-									break;
-							}
-							if (mysql_num_rows($scrap_res)==0)
-							{
-								echo "<tr><td class=lastmsgs width=16%>-</td><td class=lastmsgs>You have no messages</td></tr>";
-							}
-
-							?>
+				?>
 
 </table>
 

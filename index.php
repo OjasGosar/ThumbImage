@@ -95,13 +95,18 @@ table {
 				
 				</tr>
 				<tr>
-					<td align=center colspan="2"><br /> <input type=submit
+					<td align=center colspan=""><br /> <input type=submit
 						value="Login" class=submitbutton name=submitlogin><br />
-				
+					<form name=guestUser action="./checklogin.php" method=POST>
+					<td align=center colspan=""><br /> <input type="hidden" name="guest" value="guestuser"/>
+						<input type="submit" name="guestlogin" class=submitbutton value="Sneak In"/>
+						</form>
 				
 				<tr>
 					<td align=center colspan="2">
 						<hr color="#CCCCCC"> <a href="./register.php">Register</a>
+					<td align=center colspan="2">
+					
 			
 			</table>
 		</form>

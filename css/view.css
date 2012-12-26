@@ -86,6 +86,19 @@ color:#808080;
 
 .textLinks
 {
+	color:#787878;
+	padding:2px;
+	border:1px #CCCCCC solid;
+	text-align:center;
+	
+	font-weight:bold;
+	font-family: Verdana;
+	font-size: 12px;
+}
+
+.textLinksCustom
+{
+	color:#787878;
 	padding:5px;
 	border:1px #CCCCCC solid;
 	text-align:center;
